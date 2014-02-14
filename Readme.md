@@ -10,13 +10,14 @@ ASFormatterCache requires ARC. If you wish to use ASFormatterCache in a non-ARC 
 ## Use it
 Add `pod 'ASFormatterCache'` to your Podfile or copy 'ASFormatterCache.h' and 'ASFormatterCache.m' in your project.
 
-How to create a date formatter ?
+How to create a date formatter:
+```objc
+NSDateFormatter *formatter;
 
-    NSDateFormatter *formatter;
-    
-    formatter = [ASFormatterCache dateFormatterForKey:@"main.date"
-                                            initBlock:^NSDateFormatter *(NSDateFormatter *dateFormatter) {
-                                                dateFormatter.dateStyle = NSDateFormatterLongStyle;
-                                                dateFormatter.timeStyle = NSDateFormatterLongStyle;
-                                                return dateFormatter;
-                                             }];
+formatter = [ASFormatterCache dateFormatterForKey:@"main.date"
+                                        initBlock:^NSDateFormatter *(NSDateFormatter *dateFormatter) {
+                                            dateFormatter.dateStyle = NSDateFormatterLongStyle;
+                                            dateFormatter.timeStyle = NSDateFormatterLongStyle;
+                                            return dateFormatter;
+                                        }];
+```
