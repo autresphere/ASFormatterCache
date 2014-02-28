@@ -14,14 +14,16 @@ Add `pod 'ASFormatterCache'` to your Podfile or copy 'ASFormatterCache.h' and 'A
 
 How to create a date formatter ?
 
-    NSDateFormatter *formatter;
+```objc
+NSDateFormatter *formatter;
     
-    formatter = [ASFormatterCache dateFormatterWithBlock:^NSDateFormatter *(NSDateFormatter *dateFormatter) {
-        dateFormatter.dateStyle = NSDateFormatterLongStyle;
-        dateFormatter.timeStyle = NSDateFormatterLongStyle;
-        return dateFormatter;
-    }];
-                                             
+formatter = [ASFormatterCache dateFormatterWithBlock:^NSDateFormatter *(NSDateFormatter *dateFormatter) {
+   dateFormatter.dateStyle = NSDateFormatterLongStyle;
+   dateFormatter.timeStyle = NSDateFormatterLongStyle;
+   return dateFormatter;
+}];
+```
+                                            
 Each time the locale is changed, each formatter is removed from the cache. When the formatter is accessed, it is then recreated and the init block is called once again.
 
-Please note that `[ASFormatterCache dateFormatterWithBlock:]`computes a key on each call. If you need to access your formatter really often, this computation might slow down a little bit your operation, then you may whish to use a specific key in this case through `[NSDateFormatter dateFormatterForKey: initBlock:]`.
+Please note that `[ASFormatterCache dateFormatterWithBlock:]`computes a key (unique to the caller) on each call. If you need to access your formatter really often, this computation might slow down a little bit your operation, then you may whish to use a specific key in this case through `[NSDateFormatter dateFormatterForKey: initBlock:]`.
