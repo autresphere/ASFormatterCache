@@ -30,6 +30,12 @@
     return [[self sharedCache] dateFormatterForKey:key initBlock:block];
 }
 
++ (void)removeDateFormatterWithKey:(NSString *)key
+{
+    [[self sharedCache] removeDateFormatterWithKey:key];
+}
+
+
 - (instancetype)init
 {
     self = [super init];
@@ -52,6 +58,24 @@
                                                   object:nil];
 }
 
++ (NSDateFormatter *)dateFormatterWithInitBlock:(NSDateFormatter *(^)(NSDateFormatter *dateFormatter))block
+{
+    NSString *callerDescription;
+    NSCharacterSet *separators;
+    NSMutableArray *symbols;
+    NSString *key;
+    
+    // Forge a unique key depending on the caller stack trace.
+    callerDescription = [NSThread callStackSymbols][1];
+    separators = [NSCharacterSet characterSetWithCharactersInString:@" -[]+?.,"];
+    symbols = [NSMutableArray arrayWithArray:[callerDescription componentsSeparatedByCharactersInSet:separators]];
+    [symbols removeObject:@""];
+    
+    key = [NSString stringWithFormat:@"%@-%@-%@-%@", symbols[1], symbols[3], symbols[4], symbols[5]];
+
+    return [[self sharedCache] dateFormatterForKey:key initBlock:block];
+}
+
 - (NSDateFormatter *)dateFormatterForKey:(NSString *)key initBlock:(NSDateFormatter *(^)(NSDateFormatter *dateFormatter))block
 {
     NSDateFormatter *dateFormatter;
@@ -72,6 +96,11 @@
     }
     
     return dateFormatter;
+}
+
+- (void)removeDateFormatterWithKey:(NSString *)key
+{
+    [self.cache removeObjectForKey:key];
 }
 
 - (void)currentLocaleDidChangeNotification:(NSNotification *)notification

@@ -13,5 +13,7 @@
 + (ASFormatterCache *)sharedCache;
 
 + (NSDateFormatter *)dateFormatterForKey:(NSString *)key initBlock:(NSDateFormatter *(^)(NSDateFormatter *dateFormatter))block;
++ (NSDateFormatter *)dateFormatterWithInitBlock:(NSDateFormatter *(^)(NSDateFormatter *dateFormatter))block;
++ (void)removeDateFormatterWithKey:(NSString *)key;
 
 @end

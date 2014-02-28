@@ -48,13 +48,12 @@
 {
     NSDateFormatter *dateFormatter;
     
-    dateFormatter = [ASFormatterCache dateFormatterForKey:@"main.date"
-                                                initBlock:^NSDateFormatter *(NSDateFormatter *dateFormatter) {
-                                                    NSLog(@"Initializing date formatter.");
-                                                    dateFormatter.dateStyle = NSDateFormatterLongStyle;
-                                                    dateFormatter.timeStyle = NSDateFormatterLongStyle;
-                                                    return dateFormatter;
-                                                }];
+    dateFormatter = [ASFormatterCache dateFormatterWithInitBlock:^NSDateFormatter *(NSDateFormatter *dateFormatter) {
+        NSLog(@"Initializing date formatter.");
+        dateFormatter.dateStyle = NSDateFormatterLongStyle;
+        dateFormatter.timeStyle = NSDateFormatterLongStyle;
+        return dateFormatter;
+    }];
     
     self.dateLabel.text = [dateFormatter stringFromDate:[NSDate date]];
 }
